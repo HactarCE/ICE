@@ -1,6 +1,9 @@
 # Fonts not allowed to be redistributed
 Assets/Fonts/DAGGERSQUARE*.otf
 
+# Unity trying to be helpful
+.collabignore
+
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/

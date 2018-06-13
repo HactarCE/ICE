@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -12,7 +9,6 @@ public class TextButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 	public Color IdleColor;
 	public Color HoverColor;
 	public Color ClickColor;
-	//public Color DisabledColor;
 
 	[System.Serializable]
 	public class ClickEvent : UnityEvent { }
@@ -22,6 +18,8 @@ public class TextButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 	private Text textComponent;
 	private bool hover = false;
 	private bool clicked = false;
+
+	private float hoverScale = 1.05f;
 
 	// Use this for initialization
 	void Start()
@@ -68,15 +66,14 @@ public class TextButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 		{
 			if (clicked) color = ClickColor;
 			else color = HoverColor;
-			transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
+			transform.localScale = new Vector3(hoverScale, hoverScale, hoverScale);
 		}
-		else {
+		else
+		{
 			color = IdleColor;
 			transform.localScale = Vector3.one;
 		}
 		textComponent.color = color;
-		Debug.Log(textComponent);
-		Debug.Log(color);
 	}
 
 }
