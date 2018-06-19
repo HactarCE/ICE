@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class Person : MonoBehaviour
 {
-	
-	// Use this for initialization
-	void Start()
+
+	public GameObject MyGameManager;
+
+	protected Vector3 rockOffset;
+
+	// LateUpdate is called once per frame, after all transforms have completed their Update()
+	protected virtual void LateUpdate()
 	{
-
-	}
-
-	// Update is called once per frame
-	void Update()
-	{
-
+		transform.position = MyGameManager.GetComponent<GameManager>().ActiveRock.transform.position + rockOffset;
 	}
 }

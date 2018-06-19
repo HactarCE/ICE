@@ -423,9 +423,9 @@ Prefab:
     - target: {fileID: 114292760093421116, guid: 9bfa8f92b86174c05997a90e6b8484b0,
         type: 2}
       propertyPath: m_Text
-      value: 'The goal in TACS (Totally Accurate Curling Simulator) is to complete
-        a round with as many of your own rocks closer to the center of the target
-        zone than any of your opponent''s. Each "throw" consists of three stages:
+      value: 'The goal in ICE (Incredible Curling Extravaganza) is to complete a round
+        with as many of your own rocks closer to the center of the target zone than
+        any of your opponent''s. Each "throw" consists of three stages:
 
 
         AIM: Use the up/down arrow keys to adjust aim, and spacebar to launch.

@@ -15,11 +15,12 @@ public class TextButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
 	public ClickEvent onClick = new ClickEvent();
 
-	private Text textComponent;
-	private bool hover = false;
-	private bool clicked = false;
+	Text textComponent;
+	bool hover = false;
+	bool clicked = false;
 
-	private float hoverScale = 1.05f;
+	public float hoverScale = 1.05f;
+	public float clickScale = 1.08f;
 
 	// Use this for initialization
 	void Start()
@@ -64,9 +65,16 @@ public class TextButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 		Color color;
 		if (hover)
 		{
-			if (clicked) color = ClickColor;
-			else color = HoverColor;
-			transform.localScale = new Vector3(hoverScale, hoverScale, hoverScale);
+			if (clicked)
+			{
+				color = ClickColor;
+				transform.localScale = new Vector3(clickScale, clickScale, clickScale);
+			}
+			else
+			{
+				color = HoverColor;
+				transform.localScale = new Vector3(hoverScale, hoverScale, hoverScale);
+			}
 		}
 		else
 		{

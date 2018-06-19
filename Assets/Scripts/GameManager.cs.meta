@@ -1,0 +1,25 @@
+fileFormatVersion: 2
+guid: e43b6512f940a488880c36382897004b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - Camera: {instanceID: 0}
+  - UITop: {instanceID: 0}
+  - UIBottom: {instanceID: 0}
+  - RockPrefab: {fileID: 1050009352001474, guid: cafa0226590584622b7efa05f2e6f29d,
+      type: 2}
+  - TrajectoryPrefab: {fileID: 1711742715410700, guid: bda79265099f54ddeb0555ef2ea4be05,
+      type: 2}
+  - TrajectoryIndicatorPrefab: {fileID: 1819926476690692, guid: ed05e8ab185f74fc49ce414e339ce401,
+      type: 2}
+  - Minimap: {instanceID: 0}
+  - Thrower: {instanceID: 0}
+  - Sweeper: {instanceID: 0}
+  - HouseEmpty: {instanceID: 0}
+  - ActiveRock: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
