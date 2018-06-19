@@ -13,6 +13,9 @@ public class GameConfig : MonoBehaviour
 	public static int ThrowCount = 16;
 	public static int EndCount = 10;
 
+	public static bool P1ShowTutorial;
+	public static bool P2ShowTutorial;
+
 	// Use this for initialization
 	void Awake()
 	{
@@ -32,5 +35,15 @@ public class GameConfig : MonoBehaviour
 	public void SetEndCount(int endCount)
 	{
 		EndCount = endCount;
+	}
+
+	public void SetP1ShowTutorial(bool showTutorial)
+	{
+		P1ShowTutorial = showTutorial;
+	}
+
+	public void SetP2ShowTutorial(bool showTutorial)
+	{
+		P2ShowTutorial = showTutorial;
 	}
 }

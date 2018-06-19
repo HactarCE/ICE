@@ -6,8 +6,8 @@ using UnityEngine;
 public class Rock : MonoBehaviour
 {
 
-	public static float CURL_COEF = 5f / 1000000f;
-	// 0.5 millionths
+	public static float CURL_COEF = 3f / 1000000f;
+	// 0.3 millionths
 	// higher number -> more curling
 
 	public static float LIN_FRIC_COEF = 0.0130f;
@@ -51,13 +51,6 @@ public class Rock : MonoBehaviour
 	{
 		if (Indicator == null) InstantiateIndicator();
 	}
-
-	// Update is called once per frame
-	void Update()
-	{
-
-	}
-
 
 	// FixedUpdate is called once per physics frame
 	void FixedUpdate()

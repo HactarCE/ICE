@@ -5,11 +5,11 @@ namespace AssemblyCSharp.Assets.Scripts
 {
 	public struct Team
 	{
-		public Color Color;
-		public Sprite AimSprite;
-		public Sprite ThrowSprite;
-		public Sprite SweepSprite;
-		public Sprite PantsSprite;
+		public readonly Color Color;
+		public readonly Sprite AimSprite;
+		public readonly Sprite ThrowSprite;
+		public readonly Sprite SweepSprite;
+		public readonly Sprite PantsSprite;
 
 		public Team(Color color, Sprite aimSprite, Sprite throwSprite, Sprite sweepSprite, Sprite pantsSprite)
 		{

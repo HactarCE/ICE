@@ -22,7 +22,7 @@ public class TextButton : GenericButton
 	public float clickScale = 1.08f;
 
 	// Use this for initialization
-	void Start()
+	void Awake()
 	{
 		textComponent = GetComponent<Text>();
 		Rect box = textComponent.rectTransform.rect;
@@ -64,5 +64,4 @@ public class TextButton : GenericButton
 	{
 		onClick.Invoke();
 	}
-
 }

@@ -80,9 +80,14 @@ public class GameManager : MonoBehaviour
 
 	public enum GameState { PRE_GAME, AIMING, THROWING, SWEEPING, WATCHING }
 
+	public enum TutorialStage { NONE, BASIC, AIM, SPIN, }
+
 	public enum Turn { P1, P2 }
 
 	float watchingFrameCounter;
+
+	public bool Paused;
+	float oldGameSpeed;
 
 	// Use this for initialization
 	void Start()
@@ -107,6 +112,7 @@ public class GameManager : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		if (Paused) return;
 		switch (CurrentGameState)
 		{
 			case GameState.PRE_GAME:
@@ -140,14 +146,6 @@ public class GameManager : MonoBehaviour
 
 				break;
 			case GameState.THROWING:
-				if (Utils.GetKey_Up())
-				{
-					ActiveRock.GetComponent<Rigidbody2D>().angularVelocity += 3;
-				}
-				if (Utils.GetKey_Down())
-				{
-					ActiveRock.GetComponent<Rigidbody2D>().angularVelocity -= 3;
-				}
 				if (Utils.GetKeyDown_Confirm() || ActiveRock.transform.position.x > Hogline1.transform.position.x)
 				{
 					ReleaseRock();
@@ -182,12 +180,14 @@ public class GameManager : MonoBehaviour
 							watchingFrameCounter = 0;
 					}
 				}
+
 				break;
 		}
 	}
 
 	void LateUpdate()
 	{
+		if (Paused) return;
 		if (ActiveRock != null)
 		{
 			Vector3 rockPos = ActiveRock.transform.position;
@@ -197,6 +197,13 @@ public class GameManager : MonoBehaviour
 			Camera.transform.position = new Vector3(x, y, z);
 		}
 		rocks.Sort(new RockComparer(House));
+		if (CurrentGameState == GameState.THROWING)
+		{
+			if (Utils.GetKey_Up())
+				ActiveRock.GetComponent<Rigidbody2D>().angularVelocity += 3;
+			if (Utils.GetKey_Down())
+				ActiveRock.GetComponent<Rigidbody2D>().angularVelocity -= 3;
+		}
 	}
 
 	// FixedUpdate is called once for physics frame
@@ -211,6 +218,19 @@ public class GameManager : MonoBehaviour
 				rb.velocity += new Vector2(0f, Sweeper.GetComponent<Sweeper>().SweepOffset.y * rb.velocity.magnitude * SWEEP_COEF);
 			}
 		}
+	}
+
+	public void Pause()
+	{
+		Paused = true;
+		oldGameSpeed = Time.timeScale;
+		Time.timeScale = 0;
+	}
+
+	public void Resume()
+	{
+		Paused = false;
+		Time.timeScale = oldGameSpeed;
 	}
 
 	public Team GetCurrentTeam()

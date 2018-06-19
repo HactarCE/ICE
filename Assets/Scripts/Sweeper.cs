@@ -13,6 +13,8 @@ public class Sweeper : Person
 
 	public GameObject Broom;
 
+	bool paused;
+
 	// Use this for initialization
 	void Start()
 	{
@@ -30,6 +32,7 @@ public class Sweeper : Person
 	// Update is called once per frame
 	void Update()
 	{
+		if (paused) return;
 		GameManager.GameState gameState = MyGameManager.GetComponent<GameManager>().CurrentGameState;
 		if (gameState == GameManager.GameState.SWEEPING)
 		{
@@ -62,5 +65,15 @@ public class Sweeper : Person
 	{
 		rockOffset = baseRockOffset + SweepOffset;
 		base.LateUpdate();
+	}
+
+	void OnPauseGame()
+	{
+		paused = true;
+	}
+
+	void OnResumeGame()
+	{
+		paused = false;
 	}
 }
