@@ -7,11 +7,11 @@ public class GameConfig : MonoBehaviour
 
 	public static Team[] Teams;
 
-	public static Int32 TeamID_A = 0;
-	public static Int32 TeamID_B = 1;
+	public static Int32 TeamID_1 = 0;
+	public static Int32 TeamID_2 = 1;
 
 	public static int ThrowCount = 16;
-	public static int EndCount = 10;
+	public static int EndCount = 8;
 
 	// Use this for initialization
 	void Awake()
@@ -32,12 +32,12 @@ public class GameConfig : MonoBehaviour
 
 	public void SelectTeamA(Int32 teamID)
 	{
-		TeamID_A = teamID;
+		TeamID_1 = teamID;
 	}
 
 	public void SelectTeamB(Int32 teamID)
 	{
-		TeamID_B = teamID;
+		TeamID_2 = teamID;
 	}
 
 }

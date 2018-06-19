@@ -20,15 +20,16 @@ public class GameManager : MonoBehaviour
 
 	GameObject trajectory, trajectoryIndicator;
 
-	public GameState CurrentGameState = GameState.PRE_END;
+	public GameState CurrentGameState = GameState.PRE_GAME;
 
 	Team p1, p2;
-	int p1Score = 0, p2Score = 0;
-	int end = 0;
-	int throwsLeft;
-	Turn turn;
+	public static int P1Score, P2Score;
+	public int P1ScoreThisEnd = 0, P2ScoreThisEnd = 0;
+	public int End = 1;
+	public int Throw;
+	public Turn CurrentTurn;
 
-	public enum GameState { PRE_END, PRE_THROW, AIMING, THROWING, SWEEPING, WATCHING }
+	public enum GameState { PRE_GAME, AIMING, THROWING, SWEEPING, WATCHING }
 
 	public enum Turn { P1, P2 }
 
@@ -48,9 +49,10 @@ public class GameManager : MonoBehaviour
 		minY = IceBounds.min.y + cameraHeight / 2f - uiHeightBottom;
 		maxX = IceBounds.max.x - cameraWidth / 2f;
 		maxY = IceBounds.max.y - cameraHeight / 2f + uiHeightTop;
-		throwsLeft = GameConfig.ThrowCount;
-		p1 = GameConfig.Teams[GameConfig.TeamID_A];
-		p2 = GameConfig.Teams[GameConfig.TeamID_B];
+		p1 = GameConfig.Teams[GameConfig.TeamID_1];
+		p2 = GameConfig.Teams[GameConfig.TeamID_2];
+		P1Score = 0;
+		P2Score = 0;
 	}
 
 	//float GetRealUIHeight(GameObject uiElement)
@@ -67,7 +69,7 @@ public class GameManager : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (CurrentGameState == GameState.PRE_END)
+		if (CurrentGameState == GameState.PRE_GAME)
 		{
 			StartEnd();
 		}
@@ -169,9 +171,9 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	Team GetCurrentTeam()
+	public Team GetCurrentTeam()
 	{
-		return turn == Turn.P1 ? p1 : p2;
+		return CurrentTurn == Turn.P1 ? p1 : p2;
 	}
 
 	void KeepScores()
@@ -182,7 +184,7 @@ public class GameManager : MonoBehaviour
 
 	void StartEnd()
 	{
-		end++;
+		Throw = 1;
 		// TODO update bar at bottom
 		StartThrow();
 	}
@@ -213,17 +215,21 @@ public class GameManager : MonoBehaviour
 
 	void EndThrow()
 	{
-		turn = turn == Turn.P1 ? Turn.P2 : Turn.P1;
-		StartThrow();
+		CurrentTurn = CurrentTurn == Turn.P1 ? Turn.P2 : Turn.P1;
+		if (++Throw <= GameConfig.ThrowCount)
+			StartThrow();
 	}
 
 	void EndEnd()
 	{
-		if (end >= GameConfig.EndCount)
+		P1Score += P1ScoreThisEnd;
+		P2Score += P2ScoreThisEnd;
+		if (++End >= GameConfig.EndCount)
 			EndGame();
 		else
 		{
-			KeepScores();
+			P1ScoreThisEnd = 0;
+			P2ScoreThisEnd = 0;
 			// TODO player that scored points goes first in next round
 			foreach (GameObject rock in rocks)
 			{

@@ -39,8 +39,10 @@ public class Sweeper : Person
 				SweepOffset += offsetDelta;
 			if (Utils.GetKey_Down() && SweepOffset.y > -maxSweepOffset)
 				SweepOffset -= offsetDelta;
-			if (Utils.GetKey_Confirm())
-				broomAnimate += 0.4f;
+			if (Utils.GetKey_Confirm() || broomAnimate > 0)
+				broomAnimate += 0.5f;
+			if (broomAnimate >= 2 * Mathf.PI)
+				broomAnimate = 0;
 			Broom.transform.localPosition = baseBroomOffset + new Vector3(0f, Mathf.Sin(broomAnimate) * 0.15f);
 		}
 		else if (gameState == GameManager.GameState.WATCHING)
