@@ -6,8 +6,8 @@ using UnityEngine;
 public class Rock : MonoBehaviour
 {
 
-	public static float CURL_COEF = 1f / 100000f;
-	// 10 millionths
+	public static float CURL_COEF = 5f / 1000000f;
+	// 0.5 millionths
 	// higher number -> more curling
 
 	public static float LIN_FRIC_COEF = 0.0130f;

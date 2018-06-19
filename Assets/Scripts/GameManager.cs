@@ -1,10 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using AssemblyCSharp.Assets.Scripts;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+
+	const float SWEEP_COEF = 3f / 10000f;
 
 	public Camera Camera;
 
@@ -15,16 +18,62 @@ public class GameManager : MonoBehaviour
 	public GameObject Minimap, Thrower, Sweeper;
 	public GameObject Hogline1, Hogline2, House;
 
-	GameObject[] rocks = { };
+	List<GameObject> rocks = new List<GameObject>();
 	public GameObject ActiveRock;
 
 	GameObject trajectory, trajectoryIndicator;
 
 	public GameState CurrentGameState = GameState.PRE_GAME;
 
+	class RockComparer : IComparer<GameObject>
+	{
+		readonly Vector3 housePos;
+
+		public RockComparer(GameObject house)
+		{
+			housePos = house.transform.position;
+		}
+
+		int IComparer<GameObject>.Compare(GameObject a, GameObject b)
+		{
+			float aDistance = (a.transform.position - housePos).magnitude;
+			float bDistance = (b.transform.position - housePos).magnitude;
+			return (int)Mathf.Sign(aDistance - bDistance);
+		}
+	}
+
 	Team p1, p2;
 	public static int P1Score, P2Score;
-	public int P1ScoreThisEnd = 0, P2ScoreThisEnd = 0;
+	public int P1ScoreThisEnd
+	{
+		get
+		{
+			int score = 0;
+			foreach (GameObject rock in rocks)
+			{
+				if (rock.GetComponent<Rock>().Team.Color == p1.Color // kinda sloppy, but whatever
+					&& IsRockValid(rock))
+					score++;
+				else break;
+			}
+			return score;
+		}
+	}
+	public int P2ScoreThisEnd
+	{
+		get
+		{
+			int score = 0;
+			foreach (GameObject rock in rocks)
+			{
+				if (rock.GetComponent<Rock>().Team.Color == p2.Color // again, kinda sloppy
+					&& IsRockValid(rock))
+					score++;
+				else break;
+			}
+			return score;
+		}
+	}
 	public int End = 1;
 	public int Throw;
 	public Turn CurrentTurn;
@@ -55,93 +104,85 @@ public class GameManager : MonoBehaviour
 		P2Score = 0;
 	}
 
-	//float GetRealUIHeight(GameObject uiElement)
-	//{
-	//	if (uiElement == null) return 0;
-	//	Vector3 vector = new Vector3(0, uiElement.GetComponent<RectTransform>().rect.height, 0);
-	//	Debug.Log(vector);
-	//	vector = Camera.cameraToWorldMatrix.MultiplyVector(vector);
-	//	Debug.Log(vector);
-	//	Debug.Log(Camera.cameraToWorldMatrix);
-	//	return vector.y;
-	//}
-
 	// Update is called once per frame
 	void Update()
 	{
-		if (CurrentGameState == GameState.PRE_GAME)
+		switch (CurrentGameState)
 		{
-			StartEnd();
-		}
-		else if (CurrentGameState == GameState.AIMING)
-		{
-			float currentRotation = trajectory.transform.rotation.eulerAngles.z;
-			float rotateSpeed = 0.1f;
-			float rotateLimit = 3f;
-			if (Utils.GetKey_Up() && !(180 > currentRotation && currentRotation > rotateLimit))
-			{
-				trajectory.transform.Rotate(0, 0, rotateSpeed);
-				trajectoryIndicator.transform.Rotate(0, 0, rotateSpeed);
-			}
-			if (Utils.GetKey_Down() && !(180 < currentRotation && currentRotation < 360 - rotateLimit))
-			{
-				trajectory.transform.Rotate(0, 0, -rotateSpeed);
-				trajectoryIndicator.transform.Rotate(0, 0, -rotateSpeed);
-			}
-			trajectoryIndicator.transform.rotation = trajectory.transform.rotation;
-			if (Utils.GetKeyDown_Confirm())
-			{
-				ActiveRock.transform.position += new Vector3(0.45f, 0); // ick magic constant
-				Thrower.GetComponent<SpriteRenderer>().sprite = GetCurrentTeam().ThrowSprite;
-				float rad = Mathf.Deg2Rad * trajectory.transform.rotation.eulerAngles.z;
-				Destroy(trajectory);
-				Destroy(trajectoryIndicator);
-				ActiveRock.GetComponent<Rigidbody2D>().velocity = new Vector3(4.2f * Mathf.Cos(rad), 4.2f * Mathf.Sin(rad));
-				CurrentGameState = GameState.THROWING;
-			}
-		}
-		else if (CurrentGameState == GameState.THROWING)
-		{
-			if (Utils.GetKey_Up())
-			{
-				ActiveRock.GetComponent<Rigidbody2D>().angularVelocity += 3;
-			}
-			if (Utils.GetKey_Down())
-			{
-				ActiveRock.GetComponent<Rigidbody2D>().angularVelocity -= 3;
-			}
-			if (Utils.GetKeyDown_Confirm() || ActiveRock.transform.position.x > Hogline1.transform.position.x)
-			{
-				ReleaseRock();
-			}
-		}
-		else if (CurrentGameState == GameState.SWEEPING)
-		{
-			if (ActiveRock.transform.position.x > House.transform.position.x
-				|| ActiveRock.GetComponent<Rigidbody2D>().velocity.magnitude < 0.2f
-				|| ActiveRock.GetComponent<Rock>().OutOfBounds)
-			{
-				watchingFrameCounter = 0;
-				CurrentGameState = GameState.WATCHING;
-			}
-		}
-		else if (CurrentGameState == GameState.WATCHING)
-		{
-			if (watchingFrameCounter > 0)
-			{
-				if (watchingFrameCounter++ > 90) // 1.5 seconds
-					EndThrow();
-			}
-			else
-			{
-				watchingFrameCounter = 1;
-				foreach (GameObject rock in rocks)
+			case GameState.PRE_GAME:
+				StartEnd();
+				break;
+			case GameState.AIMING:
+				float currentRotation = trajectory.transform.rotation.eulerAngles.z;
+				float rotateSpeed = 0.1f;
+				float rotateLimit = 3f;
+				if (Utils.GetKey_Up() && !(180 > currentRotation && currentRotation > rotateLimit))
 				{
-					Rigidbody2D rb = rock.GetComponent<Rigidbody2D>();
-					if (rb.velocity.magnitude < 0.01f || Mathf.Abs(rb.angularVelocity) < 0.01f)
-						watchingFrameCounter = 0;
+					trajectory.transform.Rotate(0, 0, rotateSpeed);
+					trajectoryIndicator.transform.Rotate(0, 0, rotateSpeed);
 				}
-			}
+				if (Utils.GetKey_Down() && !(180 < currentRotation && currentRotation < 360 - rotateLimit))
+				{
+					trajectory.transform.Rotate(0, 0, -rotateSpeed);
+					trajectoryIndicator.transform.Rotate(0, 0, -rotateSpeed);
+				}
+				trajectoryIndicator.transform.rotation = trajectory.transform.rotation;
+				if (Utils.GetKeyDown_Confirm())
+				{
+					ActiveRock.transform.position += new Vector3(0.45f, 0); // ick magic constant
+					Thrower.GetComponent<SpriteRenderer>().sprite = GetCurrentTeam().ThrowSprite;
+					float rad = Mathf.Deg2Rad * trajectory.transform.rotation.eulerAngles.z;
+					Destroy(trajectory);
+					Destroy(trajectoryIndicator);
+					ActiveRock.GetComponent<Rigidbody2D>().velocity = new Vector3(4.2f * Mathf.Cos(rad), 4.2f * Mathf.Sin(rad));
+					CurrentGameState = GameState.THROWING;
+				}
+
+				break;
+			case GameState.THROWING:
+				if (Utils.GetKey_Up())
+				{
+					ActiveRock.GetComponent<Rigidbody2D>().angularVelocity += 3;
+				}
+				if (Utils.GetKey_Down())
+				{
+					ActiveRock.GetComponent<Rigidbody2D>().angularVelocity -= 3;
+				}
+				if (Utils.GetKeyDown_Confirm() || ActiveRock.transform.position.x > Hogline1.transform.position.x)
+				{
+					ReleaseRock();
+				}
+
+				break;
+			case GameState.SWEEPING:
+				if (ActiveRock.transform.position.x > House.transform.position.x
+					|| ActiveRock.GetComponent<Rigidbody2D>().velocity.magnitude < 0.2f
+					|| ActiveRock.GetComponent<Rock>().OutOfBounds)
+				{
+					watchingFrameCounter = 0;
+					CurrentGameState = GameState.WATCHING;
+				}
+
+				break;
+			case GameState.WATCHING:
+				if (watchingFrameCounter > 0)
+				{
+					if (watchingFrameCounter++ > 90) // 1.5 seconds
+						EndThrow();
+				}
+				else
+				{
+					watchingFrameCounter = 1;
+					foreach (GameObject rock in rocks)
+					{
+						Rigidbody2D rb = rock.GetComponent<Rigidbody2D>();
+						if (!rock.GetComponent<Rock>().OutOfBounds
+							&& (rb.velocity.magnitude > 0.01f
+								|| Mathf.Abs(rb.angularVelocity) > 0.01f))
+							watchingFrameCounter = 0;
+					}
+				}
+				break;
 		}
 	}
 
@@ -155,6 +196,7 @@ public class GameManager : MonoBehaviour
 			float z = Camera.transform.position.z;
 			Camera.transform.position = new Vector3(x, y, z);
 		}
+		rocks.Sort(new RockComparer(House));
 	}
 
 	// FixedUpdate is called once for physics frame
@@ -166,7 +208,7 @@ public class GameManager : MonoBehaviour
 			if (Utils.GetKey_Confirm())
 			{
 				Rigidbody2D rb = ActiveRock.GetComponent<Rigidbody2D>();
-				rb.velocity += new Vector2(0f, Sweeper.GetComponent<Sweeper>().SweepOffset.y * rb.velocity.magnitude / 10000);
+				rb.velocity += new Vector2(0f, Sweeper.GetComponent<Sweeper>().SweepOffset.y * rb.velocity.magnitude * SWEEP_COEF);
 			}
 		}
 	}
@@ -176,22 +218,22 @@ public class GameManager : MonoBehaviour
 		return CurrentTurn == Turn.P1 ? p1 : p2;
 	}
 
-	void KeepScores()
+	public bool IsRockValid(GameObject rock)
 	{
-		// TODO: add scores from current end to scores for whole game
-		// also probably refactor this?
+		return !rock.GetComponent<Rock>().OutOfBounds && rock.transform.position.x >= Hogline2.transform.position.x;
 	}
 
 	void StartEnd()
 	{
 		Throw = 1;
-		// TODO update bar at bottom
+		rocks = new List<GameObject>();
 		StartThrow();
 	}
 
 	void StartThrow()
 	{
 		ActiveRock = Instantiate(RockPrefab);
+		rocks.Add(ActiveRock);
 		ActiveRock.GetComponent<Rock>().Team = GetCurrentTeam();
 		ActiveRock.GetComponent<Rock>().Minimap = Minimap;
 		ActiveRock.GetComponent<Rock>().InstantiateIndicator();
@@ -215,33 +257,44 @@ public class GameManager : MonoBehaviour
 
 	void EndThrow()
 	{
+		foreach (GameObject rock in rocks)
+		{
+			if (!IsRockValid(rock))
+			{
+				Destroy(rock);
+				rocks.Remove(rock);
+			}
+		}
 		CurrentTurn = CurrentTurn == Turn.P1 ? Turn.P2 : Turn.P1;
 		if (++Throw <= GameConfig.ThrowCount)
 			StartThrow();
+		else
+			EndEnd();
 	}
 
 	void EndEnd()
 	{
 		P1Score += P1ScoreThisEnd;
 		P2Score += P2ScoreThisEnd;
-		if (++End >= GameConfig.EndCount)
-			EndGame();
-		else
+		if (++End <= GameConfig.EndCount)
 		{
-			P1ScoreThisEnd = 0;
-			P2ScoreThisEnd = 0;
-			// TODO player that scored points goes first in next round
+			if (P1ScoreThisEnd > 0)
+				CurrentTurn = Turn.P1;
+			else if (P2ScoreThisEnd > 0)
+				CurrentTurn = Turn.P2;
+			else
+				CurrentTurn = CurrentTurn == Turn.P1 ? Turn.P2 : Turn.P1;
 			foreach (GameObject rock in rocks)
-			{
 				Destroy(rock);
-			}
 			StartEnd();
 		}
+		else
+			EndGame();
 	}
 
 	void EndGame()
 	{
-
+		// TODO
 	}
 
 }

@@ -7,11 +7,11 @@ public class GameConfig : MonoBehaviour
 
 	public static Team[] Teams;
 
-	public static Int32 TeamID_1 = 0;
-	public static Int32 TeamID_2 = 1;
+	public static int TeamID_1 = 0;
+	public static int TeamID_2 = 1;
 
 	public static int ThrowCount = 16;
-	public static int EndCount = 8;
+	public static int EndCount = 10;
 
 	// Use this for initialization
 	void Awake()
@@ -24,20 +24,13 @@ public class GameConfig : MonoBehaviour
 		};
 	}
 
-	// Update is called once per frame
-	void Update()
+	public void SetThrowCount(int throwCount)
 	{
-
+		ThrowCount = throwCount;
 	}
 
-	public void SelectTeamA(Int32 teamID)
+	public void SetEndCount(int endCount)
 	{
-		TeamID_1 = teamID;
+		EndCount = endCount;
 	}
-
-	public void SelectTeamB(Int32 teamID)
-	{
-		TeamID_2 = teamID;
-	}
-
 }
