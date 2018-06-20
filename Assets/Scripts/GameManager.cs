@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 	const float SWEEP_COEF = 3f / 10000f;
 
 	public Camera Camera;
+	public GameObject CameraIndicator;
 
 	public GameObject UITop, UIBottom;
 	float offsetX, offsetY, minX, minY, maxX, maxY;
@@ -80,11 +81,12 @@ public class GameManager : MonoBehaviour
 
 	public enum GameState { PRE_GAME, AIMING, THROWING, SWEEPING, WATCHING }
 
-	public enum TutorialStage { NONE, BASIC, AIM, SPIN, }
+	HelpScreen.ID helpStage;
+	public HelpPanel HelpPanel;
 
 	public enum Turn { P1, P2 }
 
-	float watchingFrameCounter;
+	int watchingFrameCounter;
 
 	public bool Paused;
 	float oldGameSpeed;
@@ -112,6 +114,27 @@ public class GameManager : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		if (Paused) return;
+		switch (helpStage)
+		{
+			case HelpScreen.ID.SCORING:
+			case HelpScreen.ID.INTERFACE:
+			case HelpScreen.ID.AIMING_AND_THROWING:
+				ShowHelp();
+				break;
+			case HelpScreen.ID.SPIN:
+				if (CurrentGameState == GameState.THROWING)
+					ShowHelp();
+				break;
+			case HelpScreen.ID.SWEEPING:
+				if (CurrentGameState == GameState.SWEEPING)
+					ShowHelp();
+				break;
+			case HelpScreen.ID.FINAL:
+				if (watchingFrameCounter == 1)
+					ShowHelp();
+				break;
+		}
 		if (Paused) return;
 		switch (CurrentGameState)
 		{
@@ -195,6 +218,15 @@ public class GameManager : MonoBehaviour
 			float y = Mathf.Clamp(rockPos.y + offsetY, minY, maxY);
 			float z = Camera.transform.position.z;
 			Camera.transform.position = new Vector3(x, y, z);
+			// once this works, DON'T EVER TOUCH IT AGAIN
+			Vector3 p = ActiveRock.transform.localPosition * 20f; // eek magic constant
+			Debug.Log(p);
+			CameraIndicator.transform.localPosition = new Vector3(
+				Mathf.Clamp(p.x, -768, 768f), // AAAAAAAAAHHHHHHHHHHHHH
+				Mathf.Clamp(p.y, -17.5f, 17.5f), // AAAAAAAHHHHHHHHHHHH
+				CameraIndicator.transform.localPosition.z
+			// I don't even know where those numbers came from
+			);
 		}
 		rocks.Sort(new RockComparer(House));
 		if (CurrentGameState == GameState.THROWING)
@@ -220,17 +252,30 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
+	public void ShowHelp()
+	{
+		HelpPanel.gameObject.SetActive(true); // I should not have to do this?
+		HelpPanel.ShowHelp(HelpScreen.HelpScreens[helpStage]);
+		helpStage++;
+	}
+
 	public void Pause()
 	{
-		Paused = true;
-		oldGameSpeed = Time.timeScale;
-		Time.timeScale = 0;
+		if (!Paused)
+		{
+			Paused = true;
+			oldGameSpeed = Time.timeScale;
+			Time.timeScale = 0;
+		}
 	}
 
 	public void Resume()
 	{
-		Paused = false;
-		Time.timeScale = oldGameSpeed;
+		if (Paused)
+		{
+			Paused = false;
+			Time.timeScale = oldGameSpeed;
+		}
 	}
 
 	public Team GetCurrentTeam()
@@ -267,6 +312,8 @@ public class GameManager : MonoBehaviour
 		trajectory.transform.localPosition = new Vector3();
 		trajectoryIndicator.transform.localPosition = new Vector3();
 		CurrentGameState = GameState.AIMING;
+		if (CurrentTurn == Turn.P1 ? GameConfig.P1ShowTutorial : GameConfig.P2ShowTutorial)
+			helpStage = HelpScreen.ID.SCORING;
 	}
 
 	void ReleaseRock()
@@ -277,6 +324,10 @@ public class GameManager : MonoBehaviour
 
 	void EndThrow()
 	{
+		if (CurrentTurn == Turn.P1)
+			GameConfig.P1ShowTutorial = false;
+		else
+			GameConfig.P2ShowTutorial = false;
 		foreach (GameObject rock in rocks)
 		{
 			if (!IsRockValid(rock))

@@ -20,8 +20,6 @@ public class BottomPanel : MonoBehaviour
 	Text endCountText;
 	Text statusText;
 
-	bool paused;
-
 	// Use this for initialization
 	void Start()
 	{
@@ -38,7 +36,6 @@ public class BottomPanel : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (paused) return;
 		p1ScoreText.text = string.Format("P1 Score: {0} ({1})", GameManager.P1Score + gameManager.P1ScoreThisEnd, gameManager.P1ScoreThisEnd);
 		p2ScoreText.text = string.Format("P2 Score: {0} ({1})", GameManager.P2Score + gameManager.P2ScoreThisEnd, gameManager.P2ScoreThisEnd);
 		throwCountText.text = string.Format("Throw: {0}/{1}", gameManager.Throw, GameConfig.ThrowCount);
@@ -71,15 +68,5 @@ public class BottomPanel : MonoBehaviour
 		else
 			statusText.text = playerName + " " + stage;
 		statusText.color = gameManager.GetCurrentTeam().Color;
-	}
-
-	void OnPauseGame()
-	{
-		paused = true;
-	}
-
-	void OnResumeGame()
-	{
-		paused = false;
 	}
 }
