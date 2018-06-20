@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public abstract class PopupPanel : MonoBehaviour
 {
 
-	public GameObject GameManager;
+	public GameManager GameManager;
 
 	bool show;
 	bool showing;
@@ -29,7 +29,7 @@ public abstract class PopupPanel : MonoBehaviour
 	protected void Show()
 	{
 		if (GameManager != null)
-			GameManager.GetComponent<GameManager>().Pause();
+			GameManager.Pause();
 		gameObject.SetActive(true);
 		SetChildrenActive(false);
 		show = true;
@@ -73,7 +73,7 @@ public abstract class PopupPanel : MonoBehaviour
 			{
 				gameObject.SetActive(false);
 				if (GameManager != null)
-					GameManager.GetComponent<GameManager>().Resume();
+					GameManager.Resume();
 			}
 		}
 	}

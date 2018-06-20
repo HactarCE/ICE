@@ -85,6 +85,7 @@ public class GameManager : MonoBehaviour
 	HelpScreen.ID helpStage;
 	public HelpPanel HelpPanel;
 	public PausePanel PausePanel;
+	public EndPopup EndPopup; // consistent naming FTW?
 
 	public enum Turn { P1, P2 }
 
@@ -351,6 +352,8 @@ public class GameManager : MonoBehaviour
 
 	void EndEnd()
 	{
+		EndPopup.gameObject.SetActive(true);
+		EndPopup.ShowEndOver();
 		P1Score += P1ScoreThisEnd;
 		P2Score += P2ScoreThisEnd;
 		if (++End <= GameConfig.EndCount)

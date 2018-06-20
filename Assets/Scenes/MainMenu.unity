@@ -273,7 +273,7 @@ Prefab:
     - target: {fileID: 224268645208485446, guid: 2db838c51003e4e53bb116df2f36e5da,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 240
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 224268645208485446, guid: 2db838c51003e4e53bb116df2f36e5da,
         type: 2}
@@ -457,7 +457,7 @@ Prefab:
     - target: {fileID: 224268645208485446, guid: 2db838c51003e4e53bb116df2f36e5da,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 240
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 224268645208485446, guid: 2db838c51003e4e53bb116df2f36e5da,
         type: 2}
@@ -639,7 +639,7 @@ Prefab:
     - target: {fileID: 224268645208485446, guid: 2db838c51003e4e53bb116df2f36e5da,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 240
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 224268645208485446, guid: 2db838c51003e4e53bb116df2f36e5da,
         type: 2}
@@ -683,9 +683,7 @@ Prefab:
     - target: {fileID: 114932856560455492, guid: 2db838c51003e4e53bb116df2f36e5da,
         type: 2}
       propertyPath: m_Text
-      value: 'About
-
-'
+      value: Credits
       objectReference: {fileID: 0}
     - target: {fileID: 114990892595987954, guid: 2db838c51003e4e53bb116df2f36e5da,
         type: 2}
@@ -715,7 +713,12 @@ Prefab:
     - target: {fileID: 114990892595987954, guid: 2db838c51003e4e53bb116df2f36e5da,
         type: 2}
       propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: About
+      value: Credits
+      objectReference: {fileID: 0}
+    - target: {fileID: 114932856560455492, guid: 2db838c51003e4e53bb116df2f36e5da,
+        type: 2}
+      propertyPath: m_FontData.m_Alignment
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2db838c51003e4e53bb116df2f36e5da, type: 2}

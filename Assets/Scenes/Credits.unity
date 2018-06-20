@@ -423,22 +423,9 @@ Prefab:
     - target: {fileID: 114292760093421116, guid: 9bfa8f92b86174c05997a90e6b8484b0,
         type: 2}
       propertyPath: m_Text
-      value: 'The goal in ICE (Incredible Curling Extravaganza) is to complete a round
-        with as many of your own rocks closer to the center of the target zone than
-        any of your opponent''s. Each "throw" consists of three stages:
-
-
-        AIM: Use the up/down arrow keys to adjust aim, and spacebar to launch.
-
-
-        SLIDE-UP: Use the up/down arrow keys adjust spin, and spacebar to release
-        early. The thrower will automatically release the stone when the hogline (first
-        red line) is reached.
-
-
-        SWEEP: Use the up/down arrow keys to move the sweeper up and down, and hold
-        spacebar to sweep. Sweeping reduces friction on the ice, steering the stone
-        and making it travel farther.'
+      value: "CREDITS\n\nICE was created by:\n\tAndrew Farkas\n\tEric Zheng\n\tRavi
+        Pitelka\n\nMusic:\n\t\"Inspired\" by Kevin McLeod\n\t(Creative Commons CC0)\n\nSounds:\n\tFreesound.org\n\t(Creative
+        Commons CC0)"
       objectReference: {fileID: 0}
     - target: {fileID: 114292760093421116, guid: 9bfa8f92b86174c05997a90e6b8484b0,
         type: 2}
@@ -464,6 +451,17 @@ Prefab:
         type: 2}
       propertyPath: m_FontData.m_MaxSize
       value: 254
+      objectReference: {fileID: 0}
+    - target: {fileID: 114292760093421116, guid: 9bfa8f92b86174c05997a90e6b8484b0,
+        type: 2}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 777e220129e2e4846876442cb515921c,
+        type: 3}
+    - target: {fileID: 114292760093421116, guid: 9bfa8f92b86174c05997a90e6b8484b0,
+        type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 42
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9bfa8f92b86174c05997a90e6b8484b0, type: 2}
