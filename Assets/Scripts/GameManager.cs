@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using AssemblyCSharp.Assets.Scripts;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -83,6 +84,7 @@ public class GameManager : MonoBehaviour
 
 	HelpScreen.ID helpStage;
 	public HelpPanel HelpPanel;
+	public PausePanel PausePanel;
 
 	public enum Turn { P1, P2 }
 
@@ -115,6 +117,11 @@ public class GameManager : MonoBehaviour
 	void Update()
 	{
 		if (Paused) return;
+		if (Utils.GetKeyDown_Escape())
+		{
+			PausePanel.gameObject.SetActive(true);
+			PausePanel.ShowPauseMenu();
+		}
 		switch (helpStage)
 		{
 			case HelpScreen.ID.SCORING:
@@ -220,7 +227,6 @@ public class GameManager : MonoBehaviour
 			Camera.transform.position = new Vector3(x, y, z);
 			// once this works, DON'T EVER TOUCH IT AGAIN
 			Vector3 p = ActiveRock.transform.localPosition * 20f; // eek magic constant
-			Debug.Log(p);
 			CameraIndicator.transform.localPosition = new Vector3(
 				Mathf.Clamp(p.x, -768, 768f), // AAAAAAAAAHHHHHHHHHHHHH
 				Mathf.Clamp(p.y, -17.5f, 17.5f), // AAAAAAAHHHHHHHHHHHH
@@ -365,7 +371,7 @@ public class GameManager : MonoBehaviour
 
 	void EndGame()
 	{
-		// TODO
+		SceneManager.LoadScene("EndOfGame");
 	}
 
 }

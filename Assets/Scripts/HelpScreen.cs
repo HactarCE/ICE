@@ -51,7 +51,7 @@ namespace AssemblyCSharp.Assets.Scripts
 			{ID.AIMING_AND_THROWING, new HelpScreen(
 				"Aiming and throwing",
 				"The blue dotted line shows your current aim. Adjust it by " +
-				"holding the up or down arrow keys, or W/S.\n\nTap the " +
+				"holding the up or down arrow keys or W/S.\n\nTap the " +
 				"spacebar to start \"throwing\" (sliding) the rock."
 			)},
 			{ID.SPIN, new HelpScreen(

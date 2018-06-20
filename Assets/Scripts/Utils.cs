@@ -39,5 +39,10 @@ namespace AssemblyCSharp.Assets.Scripts
 		{
 			return Input.GetKeyUp("space") || Input.GetKeyUp("enter");
 		}
+
+		public static bool GetKeyDown_Escape()
+		{
+			return Input.GetKeyDown("p") || Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Pause);
+		}
 	}
 }

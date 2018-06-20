@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 222271000399361110}
   - component: {fileID: 114570775478703574}
   - component: {fileID: 114296412247204740}
-  - component: {fileID: 114461030336927346}
   m_Layer: 5
   m_Name: BackButton
   m_TagString: Untagged
@@ -44,6 +43,7 @@ MonoBehaviour:
   IdleColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   HoverColor: {r: 0, g: 0, b: 0.49803922, a: 1}
   ClickColor: {r: 0, g: 0, b: 0.8745098, a: 1}
+  DisabledColor: {r: 0, g: 0, b: 0, a: 0}
   onClick:
     m_PersistentCalls:
       m_Calls: []
@@ -51,42 +51,6 @@ MonoBehaviour:
       PublicKeyToken=null
   hoverScale: 1.05
   clickScale: 1.08
---- !u!114 &114461030336927346
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1806110466898836}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -234403039, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
-    m_HighlightedColor: {r: 0, g: 0, b: 0.49803922, a: 1}
-    m_PressedColor: {r: 0, g: 0, b: 0.8745098, a: 1}
-    m_DisabledColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 114570775478703574}
 --- !u!114 &114570775478703574
 MonoBehaviour:
   m_ObjectHideFlags: 1
