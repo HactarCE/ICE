@@ -708,6 +708,10 @@ Prefab:
       propertyPath: onToggle.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 1129272411616100, guid: b8172cff1b0004846aece36019259246, type: 2}
+      propertyPath: m_Name
+      value: TutorialToggleButton
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b8172cff1b0004846aece36019259246, type: 2}
   m_IsPrefabParent: 0
@@ -909,7 +913,7 @@ Prefab:
     - target: {fileID: 224122954400216072, guid: 29808ce5ffca24eaea3f45b079befa8e,
         type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 224891850981964758, guid: 29808ce5ffca24eaea3f45b079befa8e,
         type: 2}
@@ -919,12 +923,12 @@ Prefab:
     - target: {fileID: 224094139497818424, guid: 29808ce5ffca24eaea3f45b079befa8e,
         type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 224448627644647732, guid: 29808ce5ffca24eaea3f45b079befa8e,
         type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 224448627644647732, guid: 29808ce5ffca24eaea3f45b079befa8e,
         type: 2}
@@ -1117,12 +1121,12 @@ Prefab:
     - target: {fileID: 224094139497818424, guid: 29808ce5ffca24eaea3f45b079befa8e,
         type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 224448627644647732, guid: 29808ce5ffca24eaea3f45b079befa8e,
         type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 224891850981964758, guid: 29808ce5ffca24eaea3f45b079befa8e,
         type: 2}
@@ -1132,7 +1136,7 @@ Prefab:
     - target: {fileID: 224122954400216072, guid: 29808ce5ffca24eaea3f45b079befa8e,
         type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 224448627644647732, guid: 29808ce5ffca24eaea3f45b079befa8e,
         type: 2}
@@ -1696,6 +1700,10 @@ Prefab:
         type: 2}
       propertyPath: onToggle.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1129272411616100, guid: b8172cff1b0004846aece36019259246, type: 2}
+      propertyPath: m_Name
+      value: TutorialToggleButton
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b8172cff1b0004846aece36019259246, type: 2}

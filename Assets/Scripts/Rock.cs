@@ -23,6 +23,9 @@ public class Rock : MonoBehaviour
 
 	public GameObject Indicator;
 
+	AudioSource slidingSource;
+	AudioSource collisionSource;
+
 	Team team;
 
 	public Team Team
@@ -50,6 +53,11 @@ public class Rock : MonoBehaviour
 	void Start()
 	{
 		if (Indicator == null) InstantiateIndicator();
+		slidingSource = Utils.AddAudioSource(gameObject, "RockSlide");
+		collisionSource = Utils.AddAudioSource(gameObject, "RockHit");
+		slidingSource.Play();
+		slidingSource.loop = true;
+		MuteTemporarily();
 	}
 
 	// FixedUpdate is called once per physics frame
@@ -78,6 +86,12 @@ public class Rock : MonoBehaviour
 		float dr = angFric / Mathf.Max(0.01f, rb.velocity.magnitude) / 60;
 		if (Mathf.Abs(rb.angularVelocity) < dr) rb.angularVelocity = 0;
 		else rb.angularVelocity -= Mathf.Sign(rb.angularVelocity) * dr;
+		slidingSource.volume = Mathf.Sqrt(rb.velocity.magnitude) / 30f;
+	}
+
+	public void MuteTemporarily()
+	{
+		slidingSource.volume = 0f;
 	}
 
 	void OnDestroy()
@@ -90,5 +104,12 @@ public class Rock : MonoBehaviour
 		Indicator = Instantiate(IndicatorPrefab);
 		Indicator.GetComponent<RockIndicator>().RealRock = gameObject;
 		Indicator.transform.SetParent(Minimap.transform);
+	}
+
+	void OnCollisionEnter2D(Collision2D hit)
+	{
+		Debug.Log("collide!");
+		collisionSource.volume = Mathf.Sqrt(hit.relativeVelocity.magnitude) / 5f;
+		collisionSource.Play();
 	}
 }

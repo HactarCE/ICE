@@ -22,13 +22,13 @@ public class TextButton : GenericButton
 	public float clickScale = 1.08f;
 
 	// Use this for initialization
-	void Awake()
+	protected override void Start()
 	{
 		textComponent = GetComponent<Text>();
 		Rect box = textComponent.rectTransform.rect;
 		BoxCollider2D boxCollider = gameObject.AddComponent<BoxCollider2D>();
 		boxCollider.size = new Vector2(box.width, box.height);
-		UpdateState();
+		base.Start();
 	}
 
 	protected override void UpdateState()

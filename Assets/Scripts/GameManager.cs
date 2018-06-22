@@ -143,7 +143,12 @@ public class GameManager : MonoBehaviour
 					ShowHelp();
 				break;
 		}
-		if (Paused) return;
+		if (Paused)
+		{
+			foreach (GameObject rock in rocks)
+				rock.GetComponent<Rock>().MuteTemporarily();
+			return;
+		}
 		switch (CurrentGameState)
 		{
 			case GameState.PRE_GAME:

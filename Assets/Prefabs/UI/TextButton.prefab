@@ -73,6 +73,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26a6727355a50484880c9140d50f4feb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HoverSound: {fileID: 8300000, guid: e908fcd8dd1ef46b688ac7c6608d3d9d, type: 3}
+  ClickSound: {fileID: 8300000, guid: a4d3bfe26f82e4645b648d4c7f1eeae1, type: 3}
   IdleColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   HoverColor: {r: 0, g: 0, b: 0.7490196, a: 1}
   ClickColor: {r: 0, g: 0, b: 1, a: 1}

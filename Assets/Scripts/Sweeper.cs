@@ -15,10 +15,14 @@ public class Sweeper : Person
 
 	bool paused;
 
+	AudioSource singleSweepSource;
+	AudioSource multiSweepSource;
+
 	// Use this for initialization
 	void Start()
 	{
-
+		singleSweepSource = Utils.AddAudioSource(gameObject, "SingleSweep");
+		multiSweepSource = Utils.AddAudioSource(gameObject, "MultiSweep");
 	}
 
 	public void ResetOffsets()
@@ -43,7 +47,16 @@ public class Sweeper : Person
 			if (Utils.GetKey_Down() && SweepOffset.y > -maxSweepOffset)
 				SweepOffset -= offsetDelta;
 			if (Utils.GetKey_Confirm() || broomAnimate > 0)
+			{
+				if (broomAnimate == 0f)
+				{
+					if (Utils.GetKeyDown_Confirm())
+						singleSweepSource.Play();
+					else
+						multiSweepSource.Play();
+				}
 				broomAnimate += 0.6f;
+			}
 			if (broomAnimate >= 2 * Mathf.PI)
 				broomAnimate = 0;
 			Broom.transform.localPosition = baseBroomOffset + new Vector3(0f, Mathf.Sin(broomAnimate) * 0.15f);

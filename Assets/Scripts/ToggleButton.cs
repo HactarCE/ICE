@@ -18,27 +18,28 @@ public class ToggleButton : TextButton
 
 	public ToggleEvent onToggle = new ToggleEvent();
 
-	bool isChecked;
+	public bool IsChecked;
 
 	// Use this for initialization
-	void Start()
+	protected override void Start()
 	{
 		onClick.AddListener(ToggleState);
+		base.Start();
 	}
 
 	protected override void UpdateState()
 	{
-		IdleColor = isChecked ? IdleColor_Checked : IdleColor_Unchecked;
-		HoverColor = isChecked ? HoverColor_Checked : HoverColor_Unchecked;
-		ClickColor = isChecked ? ClickColor_Checked : ClickColor_Unchecked;
+		textComponent.text = (IsChecked ? "✔" : "✘") + textComponent.text.Substring(1);
+		IdleColor = IsChecked ? IdleColor_Checked : IdleColor_Unchecked;
+		HoverColor = IsChecked ? HoverColor_Checked : HoverColor_Unchecked;
+		ClickColor = IsChecked ? ClickColor_Checked : ClickColor_Unchecked;
 		base.UpdateState();
 	}
 
 	void ToggleState()
 	{
-		isChecked = !isChecked;
-		textComponent.text = (isChecked ? "✔" : "✘") + textComponent.text.Substring(1);
+		IsChecked = !IsChecked;
 		UpdateState();
-		onToggle.Invoke(isChecked);
+		onToggle.Invoke(IsChecked);
 	}
 }

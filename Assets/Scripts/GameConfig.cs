@@ -20,9 +20,9 @@ public class GameConfig : MonoBehaviour
 	void Awake()
 	{
 		Teams = new Team[]{
-			new Team(new Color(0.2f, 0.5f, 1f), "Team1"),
+			new Team(Color.green, "Team1"),
 			new Team(Color.yellow, "Team2"),
-			new Team(Color.green, "Team3"),
+			new Team(new Color(0.2f, 0.5f, 1f), "Team3"),
 			new Team(Color.red, "Team4")
 		};
 	}

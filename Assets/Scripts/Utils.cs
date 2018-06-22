@@ -44,5 +44,13 @@ namespace AssemblyCSharp.Assets.Scripts
 		{
 			return Input.GetKeyDown("p") || Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Pause);
 		}
+
+		public static AudioSource AddAudioSource(GameObject gameObject, string clipName)
+		{
+			AudioSource source = gameObject.AddComponent<AudioSource>();
+			source.clip = Resources.Load<AudioClip>("Sounds/" + clipName);
+			source.playOnAwake = false;
+			return source;
+		}
 	}
 }
